@@ -48,21 +48,36 @@ export function parseLef(lefText: string): LefData {
       currentViaRects = [];
       inVia = true;
     } else if (inVia && trimmed.startsWith("LAYER")) {
-      const layerName = trimmed.split(" ")[1];
+      // Extract layer name
+      const layerName = trimmed.split(" ")[1].replace(";", "");
       currentViaRects.push({ layer: layerName, rects: [] });
-    } else if (inVia && trimmed.startsWith("RECT")) {
-    //   const coords = trimmed
-    //     .replace(";", "")
-    //     .split(/\s+/)
-    //     .slice(1)
-    //     .map(parseFloat);
-    const match = trimmed.match(/[-+]?\d*\.?\d+/g);
-    const coords = match ? match.map(parseFloat) : [];
-      if (currentViaRects.length > 0) {
-        currentViaRects[currentViaRects.length - 1].rects.push(coords);
+      // Extract all RECTs on the same line as LAYER
+      const rectMatches = trimmed.match(/RECT\s+[-+]?\d*\.?\d+(?:\s+[-+]?\d*\.?\d+){3}/g);
+      if (rectMatches) {
+        for (const rectMatch of rectMatches) {
+          const coords = rectMatch.match(/[-+]?\d*\.?\d+/g);
+          if (coords) {
+            const parsedCoords = coords.map(parseFloat);
+            if (currentViaRects.length > 0) {
+              currentViaRects[currentViaRects.length - 1].rects.push(parsedCoords);
+            }
+          }
+        }
       }
-      // console.log("Adding RECT to VIA:", coords);
-      // console.log("Current VIA rects:", currentViaRects);
+    } else if (inVia && trimmed.includes("RECT")) {
+      // Extract all RECTs on this line (whether or not it starts with RECT)
+      const rectMatches = trimmed.match(/RECT\s+[-+]?\d*\.?\d+(?:\s+[-+]?\d*\.?\d+){3}/g);
+      if (rectMatches) {
+        for (const rectMatch of rectMatches) {
+          const coords = rectMatch.match(/[-+]?\d*\.?\d+/g);
+          if (coords) {
+            const parsedCoords = coords.map(parseFloat);
+            if (currentViaRects.length > 0) {
+              currentViaRects[currentViaRects.length - 1].rects.push(parsedCoords);
+            }
+          }
+        }
+      }
     } else if (trimmed.startsWith("END")) {
       const endName = trimmed.split(" ")[1];
       if (!inVia && currentLayer.name === endName) {
