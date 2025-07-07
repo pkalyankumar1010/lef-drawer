@@ -18,7 +18,7 @@ A VS Code extension for visualizing LEF (Library Exchange Format) files with int
 
 ## Requirements
 
-- VS Code 1.101.0 or higher
+- VS Code 1.82.1 or higher
 - LEF files to visualize
 
 ## Usage
