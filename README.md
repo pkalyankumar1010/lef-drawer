@@ -80,6 +80,9 @@ This extension is built using:
 - Webpack for bundling
 - VS Code Extension API
 
+## Future Enhacements
+- Make the preview tab name same as file name which data got extracted
+
 ## For more information
 
 * [Visual Studio Code's Extension API](https://code.visualstudio.com/api)
