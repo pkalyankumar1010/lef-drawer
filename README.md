@@ -70,6 +70,10 @@ This extension does not currently add any VS Code settings.
 - Web-based preview with React components
 - Real-time editor updates
 
+### 0.1.2
+
+- Added funcationality to disbale layers
+
 ---
 
 ## Development
