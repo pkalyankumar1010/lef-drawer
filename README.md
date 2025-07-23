@@ -74,6 +74,9 @@ This extension does not currently add any VS Code settings.
 
 - Added funcationality to disbale layers
 
+### 0.1.3
+
+- Added Search Functionality
 ---
 
 ## Development
